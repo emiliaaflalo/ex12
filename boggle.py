@@ -58,7 +58,7 @@ class Board:
         for row in self.letter_list:
             butt_col = 0
             for letter in row:
-                cur_button = tk.Button(boggle_frame, text=letter, font=('Helvetica', 20))
+                cur_button = tk.Button(boggle_frame, text=letter, font=('Helvetica', 20), height=1, width=2)
                 dic_of_butts['button'+str(counter)] = cur_button
                 cur_button.grid(row=butt_row, column=butt_col)
                 counter += 1
