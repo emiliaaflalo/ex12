@@ -31,8 +31,9 @@ def create_placements():
     for i in range(BOGGLE_SIDE):
         for j in range(BOGGLE_SIDE):
             list_of_place.append((start_x, start_y))
-            start_x += 50
-        start_y += 50
+            start_x += 2
+        start_x = 150
+        start_y += 2
     return list_of_place
 
 
@@ -48,16 +49,22 @@ class Board:
         self.width = BOARD_WIDTH
 
     def create_boggle_buttons(self):
+        boggle_frame = tk.Frame(self.root, height=200, width=200)
+        boggle_frame.pack()
+        boggle_frame.place(in_=self.root, anchor='c', relx=.5, rely=.5)
         dic_of_butts = {}
-        placements = create_placements()
         counter = 1
+        butt_row = 0
         for row in self.letter_list:
+            butt_col = 0
             for letter in row:
-                cur_button = tk.Button(self.root, text=letter, height=50, width=50, font=('Helvetica', 20))
+                cur_button = tk.Button(boggle_frame, text=letter, font=('Helvetica', 20))
                 dic_of_butts['button'+str(counter)] = cur_button
-                cur_button.pack()
-                cur_button.place(x=placements[counter-1][0], y=placements[counter-1][1])
+                cur_button.grid(row=butt_row, column=butt_col)
                 counter += 1
+                butt_col += 1
+            butt_row += 1
+
 
 
 
@@ -67,4 +74,3 @@ if __name__ == '__main__':
     board_game.create_boggle_buttons()
     board_game.root.resizable(width=False, height=False)
     board_game.root.mainloop()
-
