@@ -1,39 +1,25 @@
 import boggle_board_randomizer as random
 import tkinter as tk
+from button import Boggbutt
+
 BOARD_HEIGHT = 500
 BOARD_WIDTH = 500
 BOGGLE_SIDE = 4
 
 
-def create_word_list(filename):
-    f = open(filename, "r")
-    legal_words = [line.strip("\n") for line in f]
-    return legal_words
 
 
-def is_legal_word(word, word_list):
-    if word in word_list:
-        return True
-    else:
-        return False
+
+#def is_legal_word(word, word_list):
+ #   if word in word_list:
+  #      return True
+  #  else:
+   #     return False
 
 
-def create_board():
-    board_list = random.randomize_board()
-    return board_list
 
 
-def create_placements():
-    list_of_place = []
-    start_x = 150
-    start_y = 150
-    for i in range(BOGGLE_SIDE):
-        for j in range(BOGGLE_SIDE):
-            list_of_place.append((start_x, start_y))
-            start_x += 2
-        start_x = 150
-        start_y += 2
-    return list_of_place
+
 
 
 
@@ -45,32 +31,26 @@ class Board:
         self.width = BOARD_WIDTH
         self.boggle_buttons = self.create_boggle_buttons()
 
-   # def check_button(self, counter):
-
-
-    #def button_click(self, letter, counter):
-        #for i in range(len(self.letter_list)):
-         #   for j in range(len(self.letter_list[0])):
-
-
     def create_boggle_buttons(self):
         boggle_frame = tk.Frame(self.root, height=200, width=200)
         boggle_frame.pack()
         boggle_frame.place(in_=self.root, anchor='c', relx=.5, rely=.5)
-        dic_of_butts = {}
+        list_of_butts = []
         counter = 1
         butt_row = 0
         for row in self.letter_list:
             butt_col = 0
             for letter in row:
-                cur_button = tk.Button(boggle_frame, text=letter, font=('Helvetica', 20), height=1, width=2,\
-                                       command=lambda: self.button_click(letter, counter))
-                dic_of_butts['button'+str(counter)] = cur_button
+                cur_button = tk.Button(boggle_frame, text=letter, font=('Helvetica', 20), height=1, width=2)
+                cur_bogg_button = Boggbutt('button' + str(counter), letter, cur_button)
+                list_of_butts.append(cur_bogg_button)
                 cur_button.grid(row=butt_row, column=butt_col)
                 counter += 1
                 butt_col += 1
             butt_row += 1
-        return dic_of_butts
+        return list_of_butts
+
+
 
 
 
