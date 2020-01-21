@@ -1,6 +1,5 @@
 import boggle_board_randomizer as random
 import tkinter as tk
-import time
 BOARD_HEIGHT = 500
 BOARD_WIDTH = 500
 BOGGLE_SIDE = 4
@@ -41,9 +40,6 @@ def create_placements():
 class Board:
     def __init__(self, letter_list):
         self.letter_list = letter_list
-        self.timer = 3
-        self.score = 0
-        self.right_words = []
         self.root = tk.Tk()
         self.height = BOARD_HEIGHT
         self.width = BOARD_WIDTH
