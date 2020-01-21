@@ -1,7 +1,8 @@
-import boggle
+import Board
 import tkinter as tk
 import time
 
+BUTTON_LOCATIONS = {'Button1': (0, 0),}
 
 class Game:
     def __init__(self, board, timer):
