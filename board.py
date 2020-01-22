@@ -7,22 +7,6 @@ BOARD_WIDTH = 500
 BOGGLE_SIDE = 4
 
 
-
-
-
-#def is_legal_word(word, word_list):
- #   if word in word_list:
-  #      return True
-  #  else:
-   #     return False
-
-
-
-
-
-
-
-
 class Board:
     def __init__(self, letter_list):
         self.letter_list = letter_list
@@ -50,14 +34,10 @@ class Board:
             butt_row += 1
         return list_of_butts
 
+    def create_letter_list_label(self):
+        cur_string_label = tk.Label(self.root, )
+        cur_string_label.pack()
 
 
 
 
-
-if __name__ == '__main__':
-    board_game = Board(create_board())
-    board_game.root.geometry('500x500')
-    board_game.create_boggle_buttons()
-    board_game.root.resizable(width=False, height=False)
-    board_game.root.mainloop()

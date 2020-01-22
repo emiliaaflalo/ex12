@@ -18,26 +18,32 @@ class Game:
         self.right_words = []
         self.root = self.board.root
         self.letter_mat = letter_mat
+        self.cur_letters = []
 
     def create_butt_locations(self):
         for button in self.board.boggle_buttons:
             button.location = BUTTON_LOCATIONS[button.get_name()]
 
     def boggle_button_click(self, location, letter):
-        print(location)
-        print(letter)
+        self.cur_letters.append(letter)
+        global cur_string
+        cur_string = tk.StringVar()
+        current = ''
+        cur_string.set(current.join(self.cur_letters))
+        print(cur_string)
         for bogg_button in self.board.boggle_buttons:
             if not (location[0] - 1 <= bogg_button.location[0] <= location[0] + 1 and
                     location[1] - 1 <= bogg_button.location[1] <= location[1] + 1):
                 bogg_button.button.config(state='disabled')
             else:
-                bogg_button.button.config(state='active')
+                bogg_button.button.config(state='normal')
 
     def create_bogg_butt_commands(self):
         for bogg_butt in self.board.boggle_buttons:
-            print(bogg_butt.location)
             bogg_butt.button.config(command=lambda location=bogg_butt.location,
                                     letter=bogg_butt.letter: self.boggle_button_click(location, letter))
+
+
 
 
 def create_word_list(filename):
@@ -50,20 +56,7 @@ def create_random_letters():
     random_letters = random.randomize_board()
     return random_letters
 
-#class Timer:
 
- #   def __init__(self, board):
-  #      self.board = board
-   #     self.root = self.board.root
-   #     self.label = tk.Label(text="")
-   #     self.label.pack(side=tk.TOP)
-   #     self.root.after(1000, self.update_timer())
-    #    self.root.mainloop()
-
-   # def update_timer(self):
-    #    now = time.strftime("%H:%M:%S")
-     ##   self.label.configure(text=now)
-       # self.root.after(1000, self.update_timer())
 
 
 if __name__ == '__main__':
@@ -75,5 +68,4 @@ if __name__ == '__main__':
     cur_game.create_bogg_butt_commands()
     cur_game.board.root.resizable(width=False, height=False)
     cur_game.board.root.mainloop()
-   # my_timer = Timer(board_game)
-    #my_game = Game(board_game, my_timer)
+
