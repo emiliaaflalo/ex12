@@ -2,13 +2,16 @@ import boggle_board_randomizer as random
 from board import Board
 import tkinter as tk
 import time
+import datetime
 from button import Boggbutt
 
-BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),\
-                    'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2), 'button8': (1, 3),\
-                    'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2), 'button12': (2, 3),\
+BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),
+                    'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2), 'button8': (1, 3),
+                    'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2), 'button12': (2, 3),
                     'button13': (3, 0), 'button14': (3, 1), 'button15': (3, 2), 'button16': (3, 3)}
 BOGGLE_SIDE = 4
+SECONDS = 180
+
 
 class Game:
     def __init__(self, board, letter_mat, timer=None):
@@ -44,8 +47,6 @@ class Game:
                                     letter=bogg_butt.letter: self.boggle_button_click(location, letter))
 
 
-
-
 def create_word_list(filename):
     f = open(filename, "r")
     legal_words = [line.strip("\n") for line in f]
@@ -57,15 +58,32 @@ def create_random_letters():
     return random_letters
 
 
+class Timer:
+    def __init__(self, root):
+        self.root = root
+        self.secs = SECONDS
+        self.label = tk.Label(self.root, bg="pink",
+                              text=str(datetime.timedelta(seconds=self.secs)))
+        self.label.pack(side=tk.TOP)
+        self.root.after(1000, self.refresh_timer)
+
+    def refresh_timer(self):
+        self.secs -= 1
+        self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
+        self.root.after(1000, self.refresh_timer)
 
 
 if __name__ == '__main__':
     cur_letters = create_random_letters()
     board_game = Board(cur_letters)
-    cur_game = Game(board_game, cur_letters)
+    my_timer = Timer(board_game.root)
+    cur_game = Game(board_game,cur_letters,my_timer)
     cur_game.board.root.geometry('500x500')
     cur_game.create_butt_locations()
     cur_game.create_bogg_butt_commands()
     cur_game.board.root.resizable(width=False, height=False)
     cur_game.board.root.mainloop()
+
+
+
 
