@@ -2,6 +2,7 @@ import boggle_board_randomizer as random
 from board import Board
 import tkinter as tk
 import time
+import datetime
 from button import Boggbutt
 
 BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),\
@@ -9,16 +10,29 @@ BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'bu
                     'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2), 'button12': (2, 3),\
                     'button13': (3, 0), 'button14': (3, 1), 'button15': (3, 2), 'button16': (3, 3)}
 BOGGLE_SIDE = 4
+SECONDS = 180
+
+def create_word_list(filename):
+    f = open(filename, "r")
+    legal_words = [line.strip("\n") for line in f]
+    return legal_words
+
+
+def create_random_letters():
+    random_letters = random.randomize_board()
+    return random_letters
 
 class Game:
-    def __init__(self, board, letter_mat, timer=None):
+    def __init__(self, board, letter_mat, timer, legal_words):
         self.board = board
         self.timer = timer
         self.score = 0
+        self.legal_words = legal_words
         self.right_words = []
         self.root = self.board.root
         self.letter_mat = letter_mat
         self.cur_letters = []
+        self.correct_words = []
         self.cur_string = tk.StringVar()
         self.cur_string.set('')
         self.board.cur_letters.config(textvariable=self.cur_string)
@@ -43,20 +57,32 @@ class Game:
             bogg_butt.button.config(command=lambda location=bogg_butt.location,
                                     letter=bogg_butt.letter: self.boggle_button_click(location, letter))
 
+    def check_word(self, letters_list):
+        word = ""
+        for letter in letters_list:
+            word.join(letter)
+        if word in self.legal_words:
+            self.correct_words.append(word)
+            self.score += len(word)**2
+        elif word not in self.legal_words:
+            pass
+        self.cur_letters = []
 
 
 
-def create_word_list(filename):
-    f = open(filename, "r")
-    legal_words = [line.strip("\n") for line in f]
-    return legal_words
+class Timer:
+    def __init__(self, root):
+        self.root = root
+        self.secs = SECONDS
+        self.label = tk.Label(self.root, bg="pink",
+                              text=str(datetime.timedelta(seconds=self.secs)))
+        self.label.pack(side=tk.TOP)
+        self.root.after(1000, self.refresh_timer)
 
-
-def create_random_letters():
-    random_letters = random.randomize_board()
-    return random_letters
-
-
+    def refresh_timer(self):
+        self.secs -= 1
+        self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
+        self.root.after(1000, self.refresh_timer)
 
 
 if __name__ == '__main__':

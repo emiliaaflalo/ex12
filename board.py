@@ -27,6 +27,7 @@ class Board:
             butt_col = 0
             for letter in row:
                 cur_button = tk.Button(boggle_frame, text=letter, font=('Forte', 20), height=1, width=2)
+                cur_button = tk.Button(boggle_frame, text=letter, font=('Uppercut Angle', 20), height=1, width=2)
                 cur_bogg_button = Boggbutt('button' + str(counter), letter, cur_button)
                 list_of_butts.append(cur_bogg_button)
                 cur_button.grid(row=butt_row, column=butt_col)
