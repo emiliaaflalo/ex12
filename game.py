@@ -19,6 +19,9 @@ class Game:
         self.root = self.board.root
         self.letter_mat = letter_mat
         self.cur_letters = []
+        self.cur_string = tk.StringVar()
+        self.cur_string.set('')
+        self.board.cur_letters.config(textvariable=self.cur_string)
 
     def create_butt_locations(self):
         for button in self.board.boggle_buttons:
@@ -26,11 +29,8 @@ class Game:
 
     def boggle_button_click(self, location, letter):
         self.cur_letters.append(letter)
-        global cur_string
-        cur_string = tk.StringVar()
         current = ''
-        cur_string.set(current.join(self.cur_letters))
-        print(cur_string)
+        self.cur_string.set(current.join(self.cur_letters))
         for bogg_button in self.board.boggle_buttons:
             if not (location[0] - 1 <= bogg_button.location[0] <= location[0] + 1 and
                     location[1] - 1 <= bogg_button.location[1] <= location[1] + 1):
