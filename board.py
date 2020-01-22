@@ -49,7 +49,7 @@ class Board:
         return correct_words
 
     def create_check_butt(self):
-        check = tk.Button(self.root, width=18, height=2, bg="pink", text="CHECK WORD")
+        check = tk.Button(self.root, width=16, height=2, bg="pink", text="CHECK WORD")
         check.place(in_=self.root, anchor='w', relx=.71, rely=.20)
         return check
 
