@@ -51,12 +51,15 @@ class Game:
                                     letter=bogg_butt.letter, button=bogg_butt:
                                     self.boggle_button_click(location, letter, button))
 
-    def check_word(self, letters_list):
+    def create_check_button_command(self):
+        self.board.check_butt.config(command=self.check_word)
+
+    def check_word(self):
         word = ""
-        for letter in letters_list:
-            word.join(letter)
-        if word in self.legal_words:
+        word = word.join(self.cur_letters)
+        if word in self.legal_words and word not in self.correct_words:
             self.correct_words.append(word)
+            self.board.correct_words_box.insert(0, word)
             self.score += len(word) ** 2
         elif word not in self.legal_words:
             pass
@@ -64,6 +67,10 @@ class Game:
         self.cur_string.set("")
         for butt in self.board.boggle_buttons:
             butt.is_pressed = False
+            butt.button.config(state='normal')
+            butt.button.config(background='white')
+
+
 
 
 class Timer:
@@ -99,6 +106,7 @@ if __name__ == '__main__':
     cur_game.board.root.geometry('500x500')
     cur_game.create_butt_locations()
     cur_game.create_bogg_butt_commands()
+    cur_game.create_check_button_command()
     cur_game.board.root.resizable(width=False, height=False)
     cur_game.board.root.mainloop()
 

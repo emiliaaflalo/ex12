@@ -6,17 +6,24 @@ BOARD_HEIGHT = 500
 BOARD_WIDTH = 500
 BOGGLE_SIDE = 4
 
+ICON = 'graphics\cat_icon.ico'
+TITLE = 'BOGGLENOVELA'
+BACKGROUND_IMAGE = 'graphics/image.jpg'
 
 class Board:
     def __init__(self, letter_list):
         self.letter_list = letter_list
-        self.root = tk.Tk()
+        self.root = self.create_boggle_buttons()
+        image = tk.PhotoImage(BACKGROUND_IMAGE)
+        background_label = tk.Label(self.root, image=image)
+        background_label.place(x=0, y=0, relwidth=1, relheight=1)
         self.height = BOARD_HEIGHT
         self.width = BOARD_WIDTH
         self.boggle_buttons = self.create_boggle_buttons()
         self.cur_letters = self.create_letter_list_label()
         self.correct_words_box = self.create_listbox()
         self.check_butt = self.create_check_butt()
+        background_label.image = image
 
     def create_boggle_buttons(self):
         boggle_frame = tk.Frame(self.root, height=200, width=200)
@@ -28,8 +35,8 @@ class Board:
         for row in self.letter_list:
             butt_col = 0
             for letter in row:
-                cur_button = tk.Button(boggle_frame, text=letter, font=('Forte', 20), height=1, width=2)
-                cur_button = tk.Button(boggle_frame, text=letter, font=('Uppercut Angle', 20), height=1, width=2)
+                cur_button = tk.Button(boggle_frame, text=letter, font=('Uppercut Angle', 20), height=1, width=2,
+                                       background='white')
                 cur_bogg_button = Boggbutt('button' + str(counter), letter, cur_button)
                 list_of_butts.append(cur_bogg_button)
                 cur_button.grid(row=butt_row, column=butt_col)
@@ -44,8 +51,13 @@ class Board:
         return cur_string_label
 
     def create_listbox(self):
-        correct_words = tk.Listbox(self.root, width=20, height=13)
-        correct_words.place(in_=self.root, anchor='w', relx=.71, rely=.5)
+        list_frame = tk.Frame(self.root)
+        list_frame.place(in_=self.root, anchor='w', relx=.71, rely=.5)
+        scroll_bar = tk.Scrollbar(list_frame)
+        scroll_bar.pack(side='right', fill='y')
+        correct_words = tk.Listbox(list_frame, bd=0, yscrollcommand=scroll_bar.set, width=20, height=10)
+        correct_words.pack()
+        scroll_bar.config(command=correct_words.yview)
         return correct_words
 
     def create_check_butt(self):
@@ -53,6 +65,10 @@ class Board:
         check.place(in_=self.root, anchor='w', relx=.71, rely=.20)
         return check
 
+    def create_root(self):
+        root = tk.Tk()
+        root.iconbitmap(ICON)
+        root.title(TITLE)
 
 
 
