@@ -57,11 +57,13 @@ class Game:
             word.join(letter)
         if word in self.legal_words:
             self.correct_words.append(word)
-            self.score += len(word)**2
+            self.score += len(word) ** 2
         elif word not in self.legal_words:
             pass
         self.cur_letters = []
-
+        self.cur_string.set("")
+        for butt in self.board.boggle_buttons:
+            butt.is_pressed = False
 
 
 class Timer:
