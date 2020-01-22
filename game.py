@@ -5,9 +5,9 @@ import time
 import datetime
 from button import Boggbutt
 
-BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),\
-                    'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2), 'button8': (1, 3),\
-                    'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2), 'button12': (2, 3),\
+BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),
+                    'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2), 'button8': (1, 3),
+                    'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2), 'button12': (2, 3),
                     'button13': (3, 0), 'button14': (3, 1), 'button15': (3, 2), 'button16': (3, 3)}
 BOGGLE_SIDE = 4
 SECONDS = 180
@@ -27,6 +27,7 @@ class Game:
         self.cur_string = tk.StringVar()
         self.cur_string.set('')
         self.board.cur_letters.config(textvariable=self.cur_string)
+        self.board.score_label.config(text="Your Score Is: \n" + str(self.score))
 
     def create_butt_locations(self):
         for button in self.board.boggle_buttons:
@@ -61,6 +62,8 @@ class Game:
             self.correct_words.append(word)
             self.board.correct_words_box.insert(0, word)
             self.score += len(word) ** 2
+            self.board.score_label.config(
+                text="Your Score Is: \n" + str(self.score))
         elif word not in self.legal_words:
             pass
         self.cur_letters = []
@@ -71,20 +74,18 @@ class Game:
             butt.button.config(background='white')
 
 
-
-
 class Timer:
     def __init__(self, root):
         self.root = root
         self.secs = SECONDS
         self.label = tk.Label(self.root, bg="pink",
-                              text=str(datetime.timedelta(seconds=self.secs)))
-        self.label.pack(side=tk.TOP)
+                              text="Time Left: \n" + str(datetime.timedelta(seconds=self.secs)), width=16, height=2, )
+        self.label.place(in_=self.root, anchor="e", relx=.31, rely= .4)
         self.root.after(1000, self.refresh_timer)
 
     def refresh_timer(self):
         self.secs -= 1
-        self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
+        self.label.configure(text="Time Left: \n" + str(datetime.timedelta(seconds=self.secs)))
         self.root.after(1000, self.refresh_timer)
 
 def create_word_list(filename):
