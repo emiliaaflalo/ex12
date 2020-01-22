@@ -15,6 +15,7 @@ class Board:
         self.width = BOARD_WIDTH
         self.boggle_buttons = self.create_boggle_buttons()
         self.cur_letters = self.create_letter_list_label()
+        self.correct_words_box = self.create_listbox()
         self.check_butt = self.create_check_butt()
 
     def create_boggle_buttons(self):
@@ -41,6 +42,11 @@ class Board:
         cur_string_label = tk.Label(self.root, width=23, height=2, bg='white', relief='sunken', font=('Forte', 10))
         cur_string_label.place(in_=self.root, anchor='c', relx=.5, rely=.20)
         return cur_string_label
+
+    def create_listbox(self):
+        correct_words = tk.Listbox(self.root, width=20, height=13)
+        correct_words.place(in_=self.root, anchor='w', relx=.71, rely=.5)
+        return correct_words
 
     def create_check_butt(self):
         check = tk.Button(self.root, width=18, height=2, bg="pink", text="CHECK WORD")
