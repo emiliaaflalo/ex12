@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 class Boggbutt:
 
     def __init__(self, name, letter, button, location=None):

@@ -12,16 +12,27 @@ BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'bu
 BOGGLE_SIDE = 4
 SECONDS = 180
 
+def create_word_list(filename):
+    f = open(filename, "r")
+    legal_words = [line.strip("\n") for line in f]
+    return legal_words
+
+
+def create_random_letters():
+    random_letters = random.randomize_board()
+    return random_letters
 
 class Game:
-    def __init__(self, board, letter_mat, timer=None):
+    def __init__(self, board, letter_mat, timer, legal_words):
         self.board = board
         self.timer = timer
         self.score = 0
+        self.legal_words = legal_words
         self.right_words = []
         self.root = self.board.root
         self.letter_mat = letter_mat
         self.cur_letters = []
+        self.correct_words = []
 
     def create_butt_locations(self):
         for button in self.board.boggle_buttons:
@@ -46,16 +57,17 @@ class Game:
             bogg_butt.button.config(command=lambda location=bogg_butt.location,
                                     letter=bogg_butt.letter: self.boggle_button_click(location, letter))
 
+    def check_word(self, letters_list):
+        word = ""
+        for letter in letters_list:
+            word.join(letter)
+        if word in self.legal_words:
+            self.correct_words.append(word)
+            self.score += len(word)**2
+        elif word not in self.legal_words:
+            pass
+        self.cur_letters = []
 
-def create_word_list(filename):
-    f = open(filename, "r")
-    legal_words = [line.strip("\n") for line in f]
-    return legal_words
-
-
-def create_random_letters():
-    random_letters = random.randomize_board()
-    return random_letters
 
 
 class Timer:
