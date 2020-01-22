@@ -80,7 +80,7 @@ class Timer:
         self.secs = SECONDS
         self.label = tk.Label(self.root, bg="pink",
                               text="Time Left: \n" + str(datetime.timedelta(seconds=self.secs)), width=16, height=2, )
-        self.label.place(in_=self.root, anchor="e", relx=.31, rely= .4)
+        self.label.place(in_=self.root, anchor="e", relx=.3, rely= .5)
         self.root.after(1000, self.refresh_timer)
 
     def refresh_timer(self):
@@ -104,7 +104,6 @@ if __name__ == '__main__':
     board_game = Board(cur_letters)
     my_timer = Timer(board_game.root)
     cur_game = Game(board_game, cur_letters, my_timer, correct_words)
-    cur_game.board.root.geometry('500x500')
     cur_game.create_butt_locations()
     cur_game.create_bogg_butt_commands()
     cur_game.create_check_button_command()

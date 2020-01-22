@@ -8,12 +8,14 @@ BOGGLE_SIDE = 4
 
 ICON = 'graphics\cat_icon.ico'
 TITLE = 'BOGGLENOVELA'
-BACKGROUND_IMAGE = 'graphics/image.jpg'
+BACKGROUND_IMAGE = 'graphics/imbackground.gif'
+
 
 
 class Board:
     def __init__(self, letter_list):
         self.letter_list = letter_list
+        self.background_label = None
         self.root = tk.Tk()
         self.create_root()
         self.height = BOARD_HEIGHT
@@ -26,9 +28,8 @@ class Board:
         self.quit_butt = self.create_quit_butt()
 
     def create_boggle_buttons(self):
-        boggle_frame = tk.Frame(self.root, height=200, width=200)
-        boggle_frame.pack()
-        boggle_frame.place(in_=self.root, anchor='c', relx=.5, rely=.5)
+        boggle_frame = tk.Frame(self.root)
+        boggle_frame.place(in_=self.root, anchor='c', relx=.5, rely=.60)
         list_of_butts = []
         counter = 1
         butt_row = 0
@@ -36,9 +37,9 @@ class Board:
             butt_col = 0
             for letter in row:
                 cur_button = tk.Button(boggle_frame, text=letter,
-                                       font=('Uppercut Angle', 20), height=1,
-                                       width=2,
-                                       background='white')
+                                       font=('constantia', 13), height=1,
+                                       width=4,
+                                       background='white', compound='center')
                 cur_bogg_button = Boggbutt('button' + str(counter), letter,
                                            cur_button)
                 list_of_butts.append(cur_bogg_button)
@@ -49,14 +50,14 @@ class Board:
         return list_of_butts
 
     def create_letter_list_label(self):
-        cur_string_label = tk.Label(self.root, width=23, height=2, bg='white',
-                                    relief='sunken', font=('Forte', 10))
-        cur_string_label.place(in_=self.root, anchor='c', relx=.5, rely=.20)
+        cur_string_label = tk.Label(self.root, width=25, height=2, bg='white',
+                                    relief='sunken', font=('Gill sans', 10))
+        cur_string_label.place(in_=self.root, anchor='c', relx=.5, rely=.33)
         return cur_string_label
 
     def create_listbox(self):
         list_frame = tk.Frame(self.root)
-        list_frame.place(in_=self.root, anchor='w', relx=.71, rely=.5)
+        list_frame.place(in_=self.root, anchor='w', relx=.71, rely=.6)
         scroll_bar = tk.Scrollbar(list_frame)
         scroll_bar.pack(side='right', fill='y')
         correct_words = tk.Listbox(list_frame, bd=0,
@@ -67,22 +68,23 @@ class Board:
         return correct_words
 
     def create_check_butt(self):
-        check = tk.Button(self.root, width=16, height=2, bg="pink",
-                          text="CHECK WORD")
-        check.place(in_=self.root, anchor='w', relx=.71, rely=.20)
+        check = tk.Button(self.root, width=13, height=2, bg="pink",
+                          text="CHECK WORD", font=('Gabriola', 10))
+        check.place(in_=self.root, anchor='w', relx=.71, rely=.33)
         return check
 
     def create_root(self):
+        self.root.geometry('500x500')
         self.root.iconbitmap(ICON)
         self.root.title(TITLE)
-        image = tk.PhotoImage(BACKGROUND_IMAGE)
-        background_label = tk.Label(self.root, image=image)
-        background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        background_label.image = image
+        image = tk.PhotoImage(file=BACKGROUND_IMAGE)
+        self.background_label = tk.Label(self.root, image=image)
+        self.background_label.image = image
+        self.background_label.pack()
 
     def create_score_label(self):
         score = tk.Label(self.root, bg="pink", width=16, height=2)
-        score.place(in_=self.root, anchor="e", relx=.31, rely=.6)
+        score.place(in_=self.root, anchor="e", relx=.3, rely=.7)
         return score
 
     def create_quit_butt(self):
