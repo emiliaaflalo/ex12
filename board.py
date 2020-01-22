@@ -13,17 +13,15 @@ BACKGROUND_IMAGE = 'graphics/image.jpg'
 class Board:
     def __init__(self, letter_list):
         self.letter_list = letter_list
-        self.root = self.create_boggle_buttons()
-        image = tk.PhotoImage(BACKGROUND_IMAGE)
-        background_label = tk.Label(self.root, image=image)
-        background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        self.root = tk.Tk()
+        self.create_root()
         self.height = BOARD_HEIGHT
         self.width = BOARD_WIDTH
         self.boggle_buttons = self.create_boggle_buttons()
         self.cur_letters = self.create_letter_list_label()
         self.correct_words_box = self.create_listbox()
         self.check_butt = self.create_check_butt()
-        background_label.image = image
+
 
     def create_boggle_buttons(self):
         boggle_frame = tk.Frame(self.root, height=200, width=200)
@@ -66,9 +64,13 @@ class Board:
         return check
 
     def create_root(self):
-        root = tk.Tk()
-        root.iconbitmap(ICON)
-        root.title(TITLE)
+        self.root.iconbitmap(ICON)
+        self.root.title(TITLE)
+        image = tk.PhotoImage(BACKGROUND_IMAGE)
+        background_label = tk.Label(self.root, image=image)
+        background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        background_label.image = image
+
 
 
 
