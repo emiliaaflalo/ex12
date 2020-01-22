@@ -23,15 +23,21 @@ class Game:
         for button in self.board.boggle_buttons:
             button.location = BUTTON_LOCATIONS[button.get_name()]
 
-    def boggle_button_click(self, letter, location):
+    def boggle_button_click(self, location, letter):
+        print(location)
+        print(letter)
         for bogg_button in self.board.boggle_buttons:
             if not (location[0] - 1 <= bogg_button.location[0] <= location[0] + 1 and
                     location[1] - 1 <= bogg_button.location[1] <= location[1] + 1):
                 bogg_button.button.config(state='disabled')
+            else:
+                bogg_button.button.config(state='active')
 
     def create_bogg_butt_commands(self):
         for bogg_butt in self.board.boggle_buttons:
-            bogg_butt.button.config(command=lambda: self.boggle_button_click(bogg_butt.letter, bogg_butt.location))
+            print(bogg_butt.location)
+            bogg_butt.button.config(command=lambda location=bogg_butt.location,
+                                    letter=bogg_butt.letter: self.boggle_button_click(location, letter))
 
 
 def create_word_list(filename):
