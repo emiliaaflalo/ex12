@@ -9,7 +9,6 @@ START_IMAGE = 'opening_screen.gif'
 ICON = 'cat_icon.ico'
 
 
-
 class StartPage:
     def __init__(self):
         self.root = tk.Tk()
@@ -30,7 +29,9 @@ class StartPage:
 
     def create_start_butt(self):
         butt = tk.Button(self.root, width=10, height=1, bg="pink",
-                         text="Start Game!", font=('calibri light', 18, 'bold'), command=self.start_butt_command)
+                         text="Start Game!",
+                         font=('calibri light', 18, 'bold'),
+                         command=self.start_butt_command)
         butt.place(in_=self.root, anchor='c', relx=.5, rely=.65)
         return butt
 
@@ -40,7 +41,8 @@ class StartPage:
 
     def create_quit_butt(self):
         butt = tk.Button(self.root, width=8, height=1, bg="pink",
-                         text="QUIT", font=('calibri light', 8, 'bold'))
+                         text="QUIT", font=('calibri light', 8, 'bold'),
+                         command=self.root.destroy)
         butt.place(in_=self.root, anchor='c', relx=.5, rely=.75)
         return butt
 
@@ -70,6 +72,7 @@ def run_game():
         cur_game.create_check_button_command()
         cur_game.board.root.resizable(width=False, height=False)
         cur_game.board.root.mainloop()
+
 
 if __name__ == '__main__':
     run_game()
