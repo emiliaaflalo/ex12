@@ -110,6 +110,10 @@ class Timer:
         self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
         self.root.after(1000, self.refresh_timer)
 
+class StartPage:
+    def __init__(self, root):
+        tk.Frame(root)
+
 def create_word_list(filename):
     f = open(filename, "r")
     legal_words = [line.strip("\n") for line in f]
