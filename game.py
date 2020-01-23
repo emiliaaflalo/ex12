@@ -27,7 +27,8 @@ class Game:
         self.cur_string = tk.StringVar()
         self.cur_string.set('')
         self.board.cur_letters.config(textvariable=self.cur_string)
-        self.board.score_label.config(text="Your Score Is: \n" + str(self.score))
+        self.board.score_label.config(text=str(self.score))
+        self.board.quit_butt.configure(command=self.exit_program)
 
     def create_butt_locations(self):
         for button in self.board.boggle_buttons:
@@ -37,8 +38,7 @@ class Game:
         self.cur_letters.append(letter)
         current = ''
         self.cur_string.set(current.join(self.cur_letters))
-        bogg_butt.is_pressed = True
-        bogg_butt.button.config(background='pink')
+        self.board.change_button_to_pressed(bogg_butt)
         for bogg_button in self.board.boggle_buttons:
             if not (location[0] - 1 <= bogg_button.location[0] <= location[0] + 1 and
                     location[1] - 1 <= bogg_button.location[1] <= location[1] + 1) or bogg_button.is_pressed:
@@ -62,30 +62,45 @@ class Game:
             self.correct_words.append(word)
             self.board.correct_words_box.insert(0, word)
             self.score += len(word) ** 2
-            self.board.score_label.config(
-                text="Your Score Is: \n" + str(self.score))
+            self.board.score_label.config(text=str(self.score))
         elif word not in self.legal_words:
             pass
         self.cur_letters = []
         self.cur_string.set("")
-        for butt in self.board.boggle_buttons:
-            butt.is_pressed = False
-            butt.button.config(state='normal')
-            butt.button.config(background='white')
+        self.board.change_buttons_to_normal()
+
+    def exit_program(self):
+        exit_message = tk.MessageBox.askquestion('Quit Game', 'Are you sure you want to quit?',
+                                           icon='warning')
+        if exit_message == 'yes':
+            self.root.destroy()
+        else:
+            tk.messagebox.showinfo('Return', 'You will now return to the application screen')
 
 
 class Timer:
     def __init__(self, root):
         self.root = root
         self.secs = SECONDS
-        self.label = tk.Label(self.root, bg="pink",
-                              text="Time Left: \n" + str(datetime.timedelta(seconds=self.secs)), width=16, height=2, )
-        self.label.place(in_=self.root, anchor="e", relx=.3, rely= .5)
+        self.label = tk.Label(self.root, bg="#f3dee1", fg='black',
+                              text=str(datetime.timedelta(seconds=self.secs)), width=16, height=2,
+                              font=('calibri light', 10, 'bold'), relief='sunken')
+        self.label.place(in_=self.root, anchor="e", relx=.3, rely=.48)
         self.root.after(1000, self.refresh_timer)
 
+    def flash(self):
+        if self.secs == 60:
+            self.label.configure(background='#f3dee1', fg='#e93a57')
+        bg = self.label.cget("background")
+        fg = self.label.cget("foreground")
+        self.label.configure(background=fg, foreground=bg)
+        self.root.after(500, self.flash)
+
     def refresh_timer(self):
+        if self.secs == 60:
+            self.flash()
         self.secs -= 1
-        self.label.configure(text="Time Left: \n" + str(datetime.timedelta(seconds=self.secs)))
+        self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
         self.root.after(1000, self.refresh_timer)
 
 def create_word_list(filename):
