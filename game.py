@@ -2,15 +2,66 @@ from board import Board
 import tkinter as tk
 from tkinter import messagebox
 import datetime
+import start_page
 
-BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),
-                    'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2), 'button8': (1, 3),
-                    'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2), 'button12': (2, 3),
-                    'button13': (3, 0), 'button14': (3, 1), 'button15': (3, 2), 'button16': (3, 3)}
+BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2),
+                    'button4': (0, 3),
+                    'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2),
+                    'button8': (1, 3),
+                    'button9': (2, 0), 'button10': (2, 1), 'button11': (2, 2),
+                    'button12': (2, 3),
+                    'button13': (3, 0), 'button14': (3, 1), 'button15': (3, 2),
+                    'button16': (3, 3)}
 BOGGLE_SIDE = 4
 SECONDS = 180
 WRONG_WORD_MESSAGE = "This word doesn't exist! try again"
 DUPLICATE_WORD_MESSAGE = "You've used this word already! try again"
+
+
+class Timer:
+    def __init__(self, root):
+        self.root = root
+        self.secs = SECONDS
+        self.label = tk.Label(self.root, bg="#f3dee1", fg='black',
+                              text=str(datetime.timedelta(seconds=self.secs)),
+                              width=16, height=2,
+                              font=('calibri light', 10, 'bold'),
+                              relief='sunken')
+        self.label.place(in_=self.root, anchor="e", relx=.3, rely=.48)
+        self.root.after(1000, self.refresh_timer)
+
+    def flash(self):
+        if self.secs == 60:
+            self.label.configure(background='#f3dee1', fg='#e93a57')
+        bg = self.label.cget("background")
+        fg = self.label.cget("foreground")
+        self.label.configure(background=fg, foreground=bg)
+        self.root.after(500, self.flash)
+
+    def times_up(self):
+        if self.secs <= 0:
+            end_message = \
+                messagebox.askquestion("Time's Up!", "Nice one! Mitzi Biton"
+                                                     " will be proud! \n Do "
+                                                     "you want to play "
+                                                     "again?", icon=None)
+            if end_message == "yes":
+                self.root.destroy()
+                start_page.run_game()
+            else:
+                self.root.destroy()
+        else:
+            return
+
+    def refresh_timer(self):
+        if self.secs == 60:
+            self.flash()
+        elif self.secs <= 0:
+            self.times_up()
+            return
+        self.secs -= 1
+        self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
+        self.root.after(1000, self.refresh_timer)
 
 
 class Game:
@@ -40,8 +91,10 @@ class Game:
         self.cur_string.set(current.join(self.cur_letters))
         self.board.change_button_to_pressed(bogg_butt)
         for bogg_button in self.board.boggle_buttons:
-            if not (location[0] - 1 <= bogg_button.location[0] <= location[0] + 1 and
-                    location[1] - 1 <= bogg_button.location[1] <= location[1] + 1) or bogg_button.is_pressed:
+            if not (location[0] - 1 <= bogg_button.location[0] <= location[
+                0] + 1 and
+                    location[1] - 1 <= bogg_button.location[1] <= location[
+                        1] + 1) or bogg_button.is_pressed:
                 bogg_button.button.config(state='disabled')
             else:
                 bogg_button.button.config(state='normal')
@@ -49,8 +102,9 @@ class Game:
     def create_bogg_butt_commands(self):
         for bogg_butt in self.board.boggle_buttons:
             bogg_butt.button.config(command=lambda location=bogg_butt.location,
-                                    letter=bogg_butt.letter, button=bogg_butt:
-                                    self.boggle_button_click(location, letter, button))
+                                                   letter=bogg_butt.letter,
+                                                   button=bogg_butt:
+            self.boggle_button_click(location, letter, button))
 
     def create_check_button_command(self):
         self.board.check_butt.config(command=self.check_word)
@@ -73,45 +127,10 @@ class Game:
         self.board.change_buttons_to_normal()
 
     def exit_program(self):
-        exit_message = messagebox.askquestion('Quit Game', 'Are you sure you want to quit?',
+        exit_message = messagebox.askquestion('Quit Game',
+                                              'Are you sure you want to quit?',
                                               icon='warning')
         if exit_message == 'yes':
             self.root.destroy()
         else:
             tk.messagebox.showinfo('Return', 'Yay! back to the game then')
-
-class Timer:
-    def __init__(self, root):
-        self.root = root
-        self.secs = SECONDS
-        self.label = tk.Label(self.root, bg="#f3dee1", fg='black',
-                              text=str(datetime.timedelta(seconds=self.secs)), width=16, height=2,
-                              font=('calibri light', 10, 'bold'), relief='sunken')
-        self.label.place(in_=self.root, anchor="e", relx=.3, rely=.48)
-        self.root.after(1000, self.refresh_timer)
-
-    def flash(self):
-        if self.secs == 60:
-            self.label.configure(background='#f3dee1', fg='#e93a57')
-        bg = self.label.cget("background")
-        fg = self.label.cget("foreground")
-        self.label.configure(background=fg, foreground=bg)
-        self.root.after(500, self.flash)
-
-    def refresh_timer(self):
-        if self.secs == 60:
-            self.flash()
-        self.secs -= 1
-        self.label.configure(text=str(datetime.timedelta(seconds=self.secs)))
-        self.root.after(1000, self.refresh_timer)
-
-class StartPage:
-    def __init__(self, root):
-        tk.Frame(root)
-
-
-def main_game():
-    pass
-
-
-
