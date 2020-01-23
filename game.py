@@ -1,10 +1,7 @@
-import boggle_board_randomizer as random
 from board import Board
 import tkinter as tk
 from tkinter import messagebox
-import time
 import datetime
-from button import Boggbutt
 
 BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'button4': (0, 3),
                     'button5': (1, 0), 'button6': (1, 1), 'button7': (1, 2), 'button8': (1, 3),
@@ -114,19 +111,8 @@ class StartPage:
     def __init__(self, root):
         tk.Frame(root)
 
-def create_word_list(filename):
-    f = open(filename, "r")
-    legal_words = [line.strip("\n") for line in f]
-    return legal_words
-
-
-def create_random_letters():
-    random_letters = random.randomize_board()
-    return random_letters
 
 if __name__ == '__main__':
-    correct_words = create_word_list('boggle_dict.txt')
-    cur_letters = create_random_letters()
     board_game = Board(cur_letters)
     my_timer = Timer(board_game.root)
     cur_game = Game(board_game, cur_letters, my_timer, correct_words)
