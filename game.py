@@ -9,6 +9,8 @@ BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2), 'bu
                     'button13': (3, 0), 'button14': (3, 1), 'button15': (3, 2), 'button16': (3, 3)}
 BOGGLE_SIDE = 4
 SECONDS = 180
+WRONG_WORD_MESSAGE = "This word doesn't exist! try again"
+DUPLICATE_WORD_MESSAGE = "You've used this word already! try again"
 
 
 class Game:
@@ -56,20 +58,23 @@ class Game:
     def check_word(self):
         word = ""
         word = word.join(self.cur_letters)
-        if word in self.legal_words and word not in self.correct_words:
-            self.correct_words.append(word)
-            self.board.correct_words_box.insert(0, word)
-            self.score += len(word) ** 2
-            self.board.score_label.config(text=str(self.score))
+        if word in self.legal_words:
+            if word in self.correct_words:
+                message = messagebox.showinfo('Nope', DUPLICATE_WORD_MESSAGE)
+            else:
+                self.correct_words.append(word)
+                self.board.correct_words_box.insert(0, word)
+                self.score += len(word) ** 2
+                self.board.score_label.config(text=str(self.score))
         elif word not in self.legal_words:
-            pass
+            message = messagebox.showinfo('Undefined', WRONG_WORD_MESSAGE)
         self.cur_letters = []
         self.cur_string.set("")
         self.board.change_buttons_to_normal()
 
     def exit_program(self):
         exit_message = messagebox.askquestion('Quit Game', 'Are you sure you want to quit?',
-                                           icon='warning')
+                                              icon='warning')
         if exit_message == 'yes':
             self.root.destroy()
         else:
@@ -79,6 +84,7 @@ class Game:
         self.cur_letters = []
         self.correct_words = []
         self.cur_string.set('')
+        self.board.correct_words_box.delete(0, 'end')
 
 
 
@@ -112,13 +118,8 @@ class StartPage:
         tk.Frame(root)
 
 
-if __name__ == '__main__':
-    board_game = Board(cur_letters)
-    my_timer = Timer(board_game.root)
-    cur_game = Game(board_game, cur_letters, my_timer, correct_words)
-    cur_game.create_butt_locations()
-    cur_game.create_bogg_butt_commands()
-    cur_game.create_check_button_command()
-    cur_game.board.root.resizable(width=False, height=False)
-    cur_game.board.root.mainloop()
+def main_game():
+    pass
+
+
 
