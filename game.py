@@ -1,6 +1,7 @@
 import boggle_board_randomizer as random
 from board import Board
 import tkinter as tk
+from tkinter import messagebox
 import time
 import datetime
 from button import Boggbutt
@@ -70,12 +71,18 @@ class Game:
         self.board.change_buttons_to_normal()
 
     def exit_program(self):
-        exit_message = tk.MessageBox.askquestion('Quit Game', 'Are you sure you want to quit?',
+        exit_message = messagebox.askquestion('Quit Game', 'Are you sure you want to quit?',
                                            icon='warning')
         if exit_message == 'yes':
             self.root.destroy()
         else:
-            tk.messagebox.showinfo('Return', 'You will now return to the application screen')
+            tk.messagebox.showinfo('Return', 'Yay! back to the game then')
+
+    def reset_game(self):
+        self.cur_letters = []
+        self.correct_words = []
+        self.cur_string.set('')
+
 
 
 class Timer:

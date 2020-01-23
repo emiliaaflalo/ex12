@@ -110,3 +110,5 @@ class Board:
                          text="QUIT", font=('calibri light', 8, 'bold'))
         butt.place(in_=self.root, anchor='c', relx=.5, rely=.90)
         return butt
+
+
