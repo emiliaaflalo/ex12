@@ -3,15 +3,11 @@ import board
 import game
 import boggle_board_randomizer as random
 
-BOARD_HEIGHT = 500
-BOARD_WIDTH = 500
 BOGGLE_SIDE = 4
-ICON = 'graphics/cat_icon.ico'
 TITLE = 'BOGGLENOVELA'
-BACKGROUND_IMAGE = 'graphics/opening_screen.gif'
-BUTTON_NOT_PRESSED = 'graphics/normal_button.gif'
-BUTTON_PRESSED = 'graphics/button_pressed.gif'
-WORD_LIST_IM = 'graphics/word_list.gif'
+START_IMAGE = 'opening_screen.gif'
+ICON = 'cat_icon.ico'
+
 
 
 class StartPage:
@@ -27,7 +23,7 @@ class StartPage:
         self.root.geometry('500x500')
         self.root.iconbitmap(ICON)
         self.root.title(TITLE)
-        image = tk.PhotoImage(file=BACKGROUND_IMAGE)
+        image = tk.PhotoImage(file=START_IMAGE)
         self.background_label = tk.Label(self.root, image=image)
         self.background_label.image = image
         self.background_label.pack()

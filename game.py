@@ -2,7 +2,7 @@ from board import Board
 import tkinter as tk
 from tkinter import messagebox
 import datetime
-import start_page
+import boggle
 
 BUTTON_LOCATIONS = {'button1': (0, 0), 'button2': (0, 1), 'button3': (0, 2),
                     'button4': (0, 3),
@@ -48,7 +48,7 @@ class Timer:
                                                      "again?", icon=None)
             if end_message == "yes":
                 self.root.destroy()
-                start_page.run_game()
+                boggle.run_game()
             else:
                 self.root.destroy()
         else:

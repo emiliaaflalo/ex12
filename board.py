@@ -6,12 +6,12 @@ BOARD_HEIGHT = 500
 BOARD_WIDTH = 500
 BOGGLE_SIDE = 4
 
-ICON = 'graphics\cat_icon.ico'
+ICON = 'cat_icon.ico'
 TITLE = 'BOGGLENOVELA'
-BACKGROUND_IMAGE = 'graphics/imbackground.gif'
-BUTTON_NOT_PRESSED = 'graphics/normal_button.gif'
-BUTTON_PRESSED = 'graphics/button_pressed.gif'
-WORD_LIST_IM = 'graphics/word_list.gif'
+BACKGROUND_IMAGE = 'imbackground.gif'
+BUTTON_NOT_PRESSED = 'normal_button.gif'
+BUTTON_PRESSED = 'button_pressed.gif'
+WORD_LIST_IM = 'word_list.gif'
 
 
 
