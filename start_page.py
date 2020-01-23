@@ -35,7 +35,7 @@ class StartPage:
     def create_start_butt(self):
         butt = tk.Button(self.root, width=10, height=1, bg="pink",
                          text="Start Game!", font=('calibri light', 18, 'bold'), command=self.start_butt_command)
-        butt.place(in_=self.root, anchor='c', relx=.5, rely=.80)
+        butt.place(in_=self.root, anchor='c', relx=.5, rely=.65)
         return butt
 
     def start_butt_command(self):
@@ -45,7 +45,7 @@ class StartPage:
     def create_quit_butt(self):
         butt = tk.Button(self.root, width=8, height=1, bg="pink",
                          text="QUIT", font=('calibri light', 8, 'bold'))
-        butt.place(in_=self.root, anchor='c', relx=.5, rely=.90)
+        butt.place(in_=self.root, anchor='c', relx=.5, rely=.75)
         return butt
 
 

@@ -80,14 +80,6 @@ class Game:
         else:
             tk.messagebox.showinfo('Return', 'Yay! back to the game then')
 
-    def reset_game(self):
-        self.cur_letters = []
-        self.correct_words = []
-        self.cur_string.set('')
-        self.board.correct_words_box.delete(0, 'end')
-
-
-
 class Timer:
     def __init__(self, root):
         self.root = root
