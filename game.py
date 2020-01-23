@@ -31,12 +31,13 @@ class Timer:
         self.root.after(1000, self.refresh_timer)
 
     def flash(self):
-        if self.secs == 60:
-            self.label.configure(background='#f3dee1', fg='#e93a57')
-        bg = self.label.cget("background")
-        fg = self.label.cget("foreground")
-        self.label.configure(background=fg, foreground=bg)
-        self.root.after(500, self.flash)
+        if self.secs > 0:
+            if self.secs == 60:
+                self.label.configure(background='#f3dee1', fg='#e93a57')
+            bg = self.label.cget("background")
+            fg = self.label.cget("foreground")
+            self.label.configure(background=fg, foreground=bg)
+            self.root.after(500, self.flash)
 
     def times_up(self):
         if self.secs <= 0:
