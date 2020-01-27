@@ -81,7 +81,7 @@ def create_word_list(filename):
     :return:
     """
     f = open(filename, "r")
-    legal_words = [line.strip("\n") for line in f]
+    legal_words = [line.strip("\r\n") for line in f]
     return legal_words
 
 
