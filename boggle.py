@@ -10,7 +10,15 @@ ICON = 'cat_icon.ico'
 
 
 class StartPage:
+    """
+    this class creates an object that is used as an opening page for the
+     boggle game
+    """
     def __init__(self):
+        """
+        creates a startpage object to be used as an starting page for the game
+        using tkinter functions.
+        """
         self.root = tk.Tk()
         self.background_label = None
         self.create_root()
@@ -19,6 +27,11 @@ class StartPage:
         self.exists = True
 
     def create_root(self):
+        """
+        this function creates a root (parent) for the start page, using tkinter
+        functions
+        :return:
+        """
         self.root.geometry('500x500')
         self.root.iconbitmap(ICON)
         self.root.title(TITLE)
@@ -28,6 +41,11 @@ class StartPage:
         self.background_label.pack()
 
     def create_start_butt(self):
+        """
+        this function creates a button on teh start page that calls
+         the start_butt function
+        :return:
+        """
         butt = tk.Button(self.root, width=10, height=1, bg="pink",
                          text="Start Game!",
                          font=('calibri light', 18, 'bold'),
@@ -36,10 +54,19 @@ class StartPage:
         return butt
 
     def start_butt_command(self):
+        """
+        this function closes the current page (start page) so the main game
+        page will open after
+        :return:
+        """
         self.exists = False
         self.root.destroy()
 
     def create_quit_butt(self):
+        """
+        this function creates a button that closes the page if clicked
+        :return:
+        """
         butt = tk.Button(self.root, width=8, height=1, bg="pink",
                          text="QUIT", font=('calibri light', 8, 'bold'),
                          command=self.root.destroy)
@@ -48,17 +75,33 @@ class StartPage:
 
 
 def create_word_list(filename):
+    """
+    this function creates a list of legal words to use in the game
+    :param filename: the name of the fil containing the words
+    :return:
+    """
     f = open(filename, "r")
     legal_words = [line.strip("\n") for line in f]
     return legal_words
 
 
 def create_random_letters():
+    """
+    this function creates a 2d list containing random letters
+    :return:
+    """
     random_letters = random.randomize_board()
     return random_letters
 
 
 def run_game():
+    """
+    this function is the main function for running the game. it calls in order
+    the main functions and creates objects to be used in the game.
+    in general: it opens the start page, when "start game" is clicked, closes
+     the start page and creates the game page with all of its objects.
+    :return:
+    """
     start_page = StartPage()
     start_page.root.mainloop()
     if not start_page.exists:
