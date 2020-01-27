@@ -33,7 +33,7 @@ class StartPage:
         :return:
         """
         self.root.geometry('500x500')
-        self.root.iconbitmap(ICON)
+        # self.root.iconbitmap(ICON)
         self.root.title(TITLE)
         image = tk.PhotoImage(file=START_IMAGE)
         self.background_label = tk.Label(self.root, image=image)
